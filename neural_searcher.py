@@ -7,6 +7,9 @@ from fastembed.embedding import FlagEmbedding as Embedding
 
 from qdrant_client.http.models import Filter
 
+
+
+
 # 定义一个神经网络搜索类
 class NeuralSearcher:
     # 构造函数，初始化类实例时调用
@@ -19,7 +22,19 @@ class NeuralSearcher:
         
         
         # 初始化 Qdrant 客户端，用于与 Qdrant 服务进行通信
-        self.qdrant_client = QdrantClient(host='localhost', port=6335)
+        cluster_url = "https://f16bb39d-a7c0-4979-88f9-6f7c39d58812.us-east4-0.gcp.cloud.qdrant.io"
+        qdrant_apikey = "NRwk2vo5HRHtu-k6rnbKWnUy6sl61psQHUUCv7RkclNs_T4r3B7pzg"
+
+
+        # 使用本地向量数据库
+        # self.qdrant_client = QdrantClient(host='localhost', port=6335)
+
+        # 使用qdrant cloud向量数据库
+        self.qdrant_client = QdrantClient(
+            url=cluster_url, 
+            api_key=qdrant_apikey,
+        )
+
     
     # 定义一个搜索函数，用于执行基于文本的搜索
     def search(self, text: str):

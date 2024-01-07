@@ -415,53 +415,6 @@ def embedding_json_files(model_name:str):
 文件夹名：dirname
 '''
 
-def create_vector_data(collection_name):
-# 创建Qdrant客户端
-    qdrant_client = QdrantClient(host='localhost', port=6335)
-
-    # 创建向量数据库的集合，相当于传统数据库的表
-    qdrant_client.recreate_collection(
-        collection_name=collection_name,
-        vectors_config=models.VectorParams(size=512, distance="Cosine")
-    )
-
-    print(f"create collection:{collection_name}")
-
-    # 创建目录
-    current_path = os.getcwd()
-    json_dir_path = os.path.join(current_path, "6_merge_files")
-    npy_dir_path = os.path.join(current_path, "6_merge_files")
-
-    json_filename = "merged.json"
-    json_file_path = os.path.join(json_dir_path, json_filename)
-
-    with open(json_file_path) as fd:
-        # 本json文件格式是一个字典占多行，所以不能使用map逐行读取文件对象，而是对整个文件使用json.load()
-        payload = json.load(fd)
-
-    # 获取npy文件路径
-    npy_filename = "merged.npy"
-
-    npy_file_path = os.path.join(npy_dir_path, npy_filename)
-    # 将所有的向量都加载到内存中，numpy数组把它们作为可迭代对象。另一种选择是使用Mmap，如果我们不想将所有的数据都加载到RAM中
-    vectors = np.load(npy_file_path)
-
-    print(len(vectors))
-    print(vectors.shape)
-    print("upload npy")
-
-    # 上传数据
-    qdrant_client.upload_collection(
-        collection_name=collection_name,
-        vectors=vectors,
-        payload=payload,
-        # 向量的id会自动赋予
-        ids=None, 
-        # 单个请求上传向量的数量
-        batch_size=256 
-    )
-
-
 
 
 '''

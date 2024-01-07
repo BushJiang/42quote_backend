@@ -8,7 +8,10 @@ from neural_searcher import NeuralSearcher
 app = FastAPI()
 
 # Create an instance of the neural searcher
-neural_searcher = NeuralSearcher(collection_name='chinese_poet')
+# collection_name = "chinese_poet"
+collection_name = "golden"
+
+neural_searcher = NeuralSearcher(collection_name=collection_name)
 
 @app.get("/api/search")
 def search_startup(q: str):
@@ -25,4 +28,7 @@ def search_filter_startup(q: str, author: str):
 
 if __name__ == "__main__":
 	import uvicorn
-	uvicorn.run("service:app", host="127.0.0.1", port=8000, reload=True)
+	uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+
+
+

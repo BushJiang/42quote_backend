@@ -2,3 +2,4 @@ fastapi
 uvicorn
 qdrant_client
 fastembed
+python-dotenv

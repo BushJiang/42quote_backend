@@ -7,6 +7,22 @@ from fastembed.embedding import FlagEmbedding as Embedding
 
 from qdrant_client.http.models import Filter
 
+import os
+
+from dotenv import load_dotenv
+
+# 在当前目录或指定路径中查找 .env 文件，加载它的环境变量到 Python 程序的环境中
+# .env 文件通常包含一系列的键值对，格式为 KEY=VALUE。
+
+# 检查 .env 文件是否存在，如果存在，则加载它。因为github和render不会包含.env文件，只有本地才有
+if os.path.isfile('.env'):
+    load_dotenv()
+
+
+# 从环境变量中获取所需的值
+# 在 Render 等生产环境中，这些值应该通过服务的环境变量设置提供
+qdrant_cluster_url = os.getenv("QDRANT_CLUSTER_URL")
+qdrant_api_key = os.getenv("QDRANT_API_KEY")
 
 
 
@@ -20,20 +36,19 @@ class NeuralSearcher:
         # 支持多语言的模型：paraphrase-multilingual-MiniLM-L12-v2
         self.model = Embedding(model_name="BAAI/bge-small-zh-v1.5", max_length=512)
         
-        
         # 初始化 Qdrant 客户端，用于与 Qdrant 服务进行通信
-        cluster_url = "https://f16bb39d-a7c0-4979-88f9-6f7c39d58812.us-east4-0.gcp.cloud.qdrant.io"
-        qdrant_apikey = "NRwk2vo5HRHtu-k6rnbKWnUy6sl61psQHUUCv7RkclNs_T4r3B7pzg"
-
 
         # 使用本地向量数据库
         # self.qdrant_client = QdrantClient(host='localhost', port=6335)
 
         # 使用qdrant cloud向量数据库
         self.qdrant_client = QdrantClient(
-            url=cluster_url, 
-            api_key=qdrant_apikey,
+            url=qdrant_cluster_url, 
+            api_key=qdrant_api_key,
         )
+
+
+
 
     
     # 定义一个搜索函数，用于执行基于文本的搜索

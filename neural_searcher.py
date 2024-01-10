@@ -11,24 +11,20 @@ import os
 
 from dotenv import load_dotenv
 
-# 在当前目录或指定路径中查找 .env 文件，加载它的环境变量到 Python 程序的环境中
-# .env 文件通常包含一系列的键值对，格式为 KEY=VALUE。
-
-# 检查 .env 文件是否存在，如果存在，则加载它。因为github和render不会包含.env文件，只有本地才有
-if os.path.isfile('.env'):
-    load_dotenv()
-
-
-# 从环境变量中获取所需的值
-# 在 Render 等生产环境中，这些值应该通过服务的环境变量设置提供
-qdrant_cluster_url = os.getenv("QDRANT_CLUSTER_URL")
-qdrant_api_key = os.getenv("QDRANT_API_KEY")
-
-
 # 定义一个神经网络搜索类
 class NeuralSearcher:
     # 构造函数，初始化类实例时调用
     def __init__(self, collection_name): 
+        # 检查 .env 文件是否存在，如果存在，则加载它的变量（qdrant cloud 的url和api key）到 Python 程序的环境中，再从环境变量中获取这些变量
+        # 因为github和render不会包含.env文件，只有本地才有
+        # 在render中， .env文件不存在，qdrant cloud的url和api key需要在render的环境变量中设置
+        if os.path.isfile('.env'):
+            load_dotenv()
+            # 从环境变量中获取所需的值
+            # 而在 Render 等生产环境中，这些值应该通过服务的环境变量设置提供
+            qdrant_cluster_url = os.getenv("QDRANT_CLUSTER_URL")
+            qdrant_api_key = os.getenv("QDRANT_API_KEY")
+
         # 将集合名称保存为类属性
         self.collection_name = collection_name
         # 初始化句子编码模型，用于将文本转换为向量
@@ -46,7 +42,6 @@ class NeuralSearcher:
             api_key=qdrant_api_key,
         )
 
-    
     # 定义一个搜索函数，用于执行基于文本的搜索
     def search(self, text: str):
         # 使用模型将文本转换为向量
@@ -67,7 +62,7 @@ class NeuralSearcher:
         payloads = [hit.payload for hit in search_result]
         return payloads
 
-    # 定义一个带有城市过滤条件的搜索函数
+    # 定义一个带有作者过滤条件的搜索函数
     def search_with_author_filter(self, text: str, author_of_interest: str):
         # 同样使用模型将文本转换为向量
         # self.model.embed(text)是一个生成器，可以生成一个numpy。vector需要转换成列表
@@ -98,5 +93,3 @@ class NeuralSearcher:
         # 提取搜索结果中的有效载荷（payload）
         payloads = [hit.payload for hit in search_result]
         return payloads
-
-

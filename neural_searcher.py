@@ -25,7 +25,6 @@ qdrant_cluster_url = os.getenv("QDRANT_CLUSTER_URL")
 qdrant_api_key = os.getenv("QDRANT_API_KEY")
 
 
-
 # 定义一个神经网络搜索类
 class NeuralSearcher:
     # 构造函数，初始化类实例时调用
@@ -46,9 +45,6 @@ class NeuralSearcher:
             url=qdrant_cluster_url, 
             api_key=qdrant_api_key,
         )
-
-
-
 
     
     # 定义一个搜索函数，用于执行基于文本的搜索

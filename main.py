@@ -1,11 +1,36 @@
 # 文件：service.py
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # That is the file where NeuralSearcher is stored
 from neural_searcher import NeuralSearcher
 
+
 app = FastAPI()
+
+
+
+# 实现跨域连接
+# 设置允许的来源
+origins = [
+    "https://your-frontend-service.onrender.com",  # Render 前端服务的 URL
+    "http://localhost",  # 本地开发
+    "http://localhost:8080",  # 本地开发，Vue 默认端口
+]
+
+# 设置中间件，
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+
+
 
 # Create an instance of the neural searcher
 # collection_name = "chinese_poet"

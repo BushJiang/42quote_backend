@@ -20,10 +20,10 @@ class NeuralSearcher:
         # 在render中， .env文件不存在，qdrant cloud的url和api key需要在render的环境变量中设置
         if os.path.isfile('.env'):
             load_dotenv()
-            # 从环境变量中获取所需的值
-            # 而在 Render 等生产环境中，这些值应该通过服务的环境变量设置提供
-            qdrant_cluster_url = os.getenv("QDRANT_CLUSTER_URL")
-            qdrant_api_key = os.getenv("QDRANT_API_KEY")
+        # 从环境变量中获取所需的值
+        # 而在 Render 等生产环境中，这些值应该通过服务的环境变量设置提供
+        qdrant_cluster_url = os.getenv("QDRANT_CLUSTER_URL")
+        qdrant_api_key = os.getenv("QDRANT_API_KEY")
 
         # 将集合名称保存为类属性
         self.collection_name = collection_name

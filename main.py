@@ -14,7 +14,7 @@ app = FastAPI()
 # 实现跨域连接
 # 设置允许的来源
 origins = [
-    "https://four2quote-frontend.onrender.com",  # Render 前端服务的 URL
+    "https://four2quote-frontend-2.onrender.com",  # Render 前端服务的 URL
     "http://localhost",  # 本地开发
     "http://localhost:8080",  # 本地开发，Vue 默认端口
 ]

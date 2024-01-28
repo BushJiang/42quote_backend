@@ -55,8 +55,8 @@ class NeuralSearcher:
             query_vector=vector, 
             # 不使用过滤条件                
             query_filter=None,  
-            # 返回最相似的前5个结果                   
-            limit=12                                  
+            # 返回最相似的前21个结果                   
+            limit=21                                
         )
         # 提取搜索结果中的有效载荷（payload）
         payloads = [hit.payload for hit in search_result]
@@ -87,8 +87,8 @@ class NeuralSearcher:
             query_vector=vector,    
             # 应用城市过滤条件               
             query_filter=city_filter,  
-            # 返回最相似的前5个结果            
-            limit=12                                 
+            # 返回最相似的前21个结果            
+            limit=21                              
         )
         # 提取搜索结果中的有效载荷（payload）
         payloads = [hit.payload for hit in search_result]
